@@ -3,7 +3,6 @@
 use dox::{mem, Option};
 
 pub type clock_t = ::c_long;
-pub type time_t = ::c_long;
 pub type suseconds_t = ::c_long;
 pub type off_t = ::c_long;
 pub type blkcnt_t = ::c_ulong;
