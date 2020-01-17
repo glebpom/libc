@@ -45,6 +45,18 @@ pub const O_DIRECTORY: ::c_int = 0x10000;
 pub const O_NOFOLLOW: ::c_int = 0x20000;
 pub const ST_RELATIME: ::c_ulong = 4096;
 pub const NI_MAXHOST: ::socklen_t = 1025;
+pub const O_TMPFILE: ::c_int = 0o20000000 | O_DIRECTORY;
+
+pub const XTABS: ::tcflag_t = 0014000;
+pub const NLDLY: ::tcflag_t = 0000400;
+pub const CRDLY: ::c_int = 0003000;
+pub const TABDLY: ::c_int = 0014000;
+pub const BSDLY: ::c_int = 0020000;
+pub const VTDLY: ::c_int = 0040000;
+pub const FFDLY: ::c_int = 0100000;
+pub const CIBAUD: ::tcflag_t = 002003600000;
+pub const CBAUDEX: ::tcflag_t = 0010000;
+pub const EXTPROC: ::tcflag_t = 0200000;
 
 pub const RLIMIT_NOFILE: ::c_int = 5;
 pub const RLIMIT_AS: ::c_int = 6;
@@ -64,6 +76,8 @@ pub const O_DSYNC: ::c_int = 0x10;
 pub const O_FSYNC: ::c_int = 0x10;
 pub const O_ASYNC: ::c_int = 0x1000;
 pub const O_NDELAY: ::c_int = 0x80;
+pub const O_NOATIME: ::c_int = 0x40000;
+pub const O_PATH: ::c_int = 0o10000000;
 
 pub const SOCK_NONBLOCK: ::c_int = 128;
 
@@ -162,6 +176,7 @@ pub const MAP_LOCKED: ::c_int = 0x8000;
 pub const MAP_POPULATE: ::c_int = 0x10000;
 pub const MAP_NONBLOCK: ::c_int = 0x20000;
 pub const MAP_STACK: ::c_int = 0x40000;
+pub const MAP_HUGETLB: ::c_int = 0x80000;
 
 pub const SOCK_STREAM: ::c_int = 2;
 pub const SOCK_DGRAM: ::c_int = 1;
@@ -227,8 +242,8 @@ pub const FIOCLEX: ::c_ulong = 0x6601;
 pub const FIONCLEX: ::c_ulong = 0x6602;
 pub const FIONBIO: ::c_ulong = 0x667e;
 
-pub const SA_ONSTACK: ::c_uint = 0x08000000;
-pub const SA_SIGINFO: ::c_uint = 0x00000008;
+pub const SA_ONSTACK: ::c_int = 0x08000000;
+pub const SA_SIGINFO: ::c_int = 0x00000008;
 pub const SA_NOCLDWAIT: ::c_int = 0x00010000;
 
 pub const SIGCHLD: ::c_int = 18;
@@ -296,6 +311,8 @@ pub const IEXTEN: ::tcflag_t = 0x00000100;
 pub const TOSTOP: ::tcflag_t = 0x00008000;
 pub const FLUSHO: ::tcflag_t = 0x00002000;
 pub const IUTF8: ::tcflag_t = 0x00004000;
+pub const OLCUC: ::tcflag_t = 0000002;
+
 pub const TCSANOW: ::c_int = 0x540e;
 pub const TCSADRAIN: ::c_int = 0x540f;
 pub const TCSAFLUSH: ::c_int = 0x5410;
@@ -406,6 +423,7 @@ pub const VREPRINT: usize = 12;
 pub const VSUSP: usize = 10;
 pub const VSTART: usize = 8;
 pub const VSTOP: usize = 9;
+pub const VSWTC: usize = 7;
 pub const VDISCARD: usize = 13;
 pub const VTIME: usize = 5;
 pub const IXON: ::tcflag_t = 0x00000400;
@@ -465,6 +483,47 @@ pub const B2500000: ::speed_t = 0o010014;
 pub const B3000000: ::speed_t = 0o010015;
 pub const B3500000: ::speed_t = 0o010016;
 pub const B4000000: ::speed_t = 0o010017;
+
+s! {
+    pub struct statfs64 {
+        pub f_type: ::c_long,
+        pub f_bsize: ::c_long,
+        pub f_frsize: ::c_long,
+        pub f_blocks: ::fsblkcnt64_t,
+        pub f_bfree: ::fsblkcnt64_t,
+        pub f_files: ::fsblkcnt64_t,
+        pub f_ffree: ::fsblkcnt64_t,
+        pub f_bavail: ::fsblkcnt64_t,
+
+        pub f_fsid: ::fsid_t,
+        pub f_namelen: ::c_long,
+        pub f_flags: ::c_long,
+        pub f_spare: [::c_long; 5],
+    }
+
+    pub struct statvfs64 {
+        pub f_bsize: ::c_ulong,
+        pub f_frsize: ::c_ulong,
+        pub f_blocks: ::fsblkcnt64_t,
+        pub f_bfree: ::fsblkcnt64_t,
+        pub f_bavail: ::fsblkcnt64_t,
+        pub f_files: ::fsblkcnt64_t,
+        pub f_ffree: ::fsblkcnt64_t,
+        pub f_favail: ::fsblkcnt64_t,
+        pub f_fsid: ::c_ulong,
+        __f_unused: ::c_int,
+        pub f_flag: ::c_ulong,
+        pub f_namemax: ::c_ulong,
+        __f_spare: [::c_int; 6],
+    }
+
+    pub struct sigaction {
+        pub sa_flags: ::c_int,
+        pub sa_sigaction: ::sighandler_t,
+        pub sa_mask: sigset_t,
+        _restorer: *mut ::c_void,
+    }
+}
 
 cfg_if! {
     if #[cfg(target_arch = "mips")] {

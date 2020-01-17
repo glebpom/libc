@@ -13,6 +13,7 @@ pub type nlink_t = u32;
 pub type fsblkcnt_t = ::c_ulong;
 pub type fsfilcnt_t = ::c_ulong;
 pub type rlim_t = c_ulong;
+pub type __u64 = ::c_ulonglong;
 
 s! {
     pub struct stat {
@@ -63,13 +64,6 @@ s! {
 
     pub struct pthread_attr_t {
         __size: [u32; 9]
-    }
-
-    pub struct sigaction {
-        pub sa_flags: ::c_uint,
-        pub sa_sigaction: ::sighandler_t,
-        pub sa_mask: sigset_t,
-        _restorer: *mut ::c_void,
     }
 
     pub struct stack_t {
@@ -226,6 +220,7 @@ pub const __SIZEOF_PTHREAD_CONDATTR_T: usize = 4;
 pub const __SIZEOF_PTHREAD_MUTEX_T: usize = 24;
 pub const __SIZEOF_PTHREAD_RWLOCK_T: usize = 32;
 pub const __SIZEOF_PTHREAD_MUTEXATTR_T: usize = 4;
+pub const __SIZEOF_PTHREAD_RWLOCKATTR_T: usize = 8;
 
 pub const RLIM_INFINITY: ::rlim_t = 0x7fffffff;
 
@@ -587,6 +582,8 @@ pub const SYS_pwritev2: ::c_long = 4000 + 362;
 pub const SYS_pkey_mprotect: ::c_long = 4000 + 363;
 pub const SYS_pkey_alloc: ::c_long = 4000 + 364;
 pub const SYS_pkey_free: ::c_long = 4000 + 365;
+
+pub const O_LARGEFILE: ::c_int = 0x2000;
 
 #[link(name = "util")]
 extern "C" {

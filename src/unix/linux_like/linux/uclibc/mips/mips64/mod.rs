@@ -12,6 +12,10 @@ pub type rlim_t = ::c_ulong;
 pub type suseconds_t = i64;
 pub type time_t = i64;
 pub type wchar_t = i32;
+pub type __u64 = ::c_ulong;
+pub type fsblkcnt64_t = ::c_ulong;
+
+pub const O_LARGEFILE: ::c_int = 0;
 
 s! {
     pub struct stat {
@@ -63,13 +67,6 @@ s! {
 
     pub struct pthread_attr_t {
         __size: [::c_ulong; 7]
-    }
-
-    pub struct sigaction {
-        pub sa_flags: ::c_int,
-        pub sa_sigaction: ::sighandler_t,
-        pub sa_mask: sigset_t,
-        _restorer: *mut ::c_void,
     }
 
     pub struct stack_t {
@@ -192,6 +189,7 @@ pub const __SIZEOF_PTHREAD_CONDATTR_T: usize = 4;
 pub const __SIZEOF_PTHREAD_MUTEXATTR_T: usize = 4;
 pub const __SIZEOF_PTHREAD_MUTEX_T: usize = 40;
 pub const __SIZEOF_PTHREAD_RWLOCK_T: usize = 56;
+pub const __SIZEOF_PTHREAD_RWLOCKATTR_T: usize = 8;
 
 pub const RLIM_INFINITY: ::rlim_t = 0xffff_ffff_ffff_ffff;
 
